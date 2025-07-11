@@ -8,6 +8,7 @@ import domain.payment.PaymentManager;
 import domain.payment.PaymentException;
 import domain.room.RoomManager;
 import domain.room.RoomException;
+//
 public class CancelRoomControl {
     	   public void cancel(String reservationNumber) throws AppException {
 			   try {

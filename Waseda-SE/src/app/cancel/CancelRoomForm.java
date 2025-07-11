@@ -2,6 +2,8 @@ package app.cancel;
 
 import app.AppException;
 import app.cancel.CancelRoomControl;
+//
+
 
 public class CancelRoomForm {
     private CancelRoomControl CancelRoomControl = new CancelRoomControl();
