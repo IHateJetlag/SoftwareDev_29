@@ -5,7 +5,7 @@ import app.cancel.CancelRoomControl;
 
 public class CancelRoomForm {
     private CancelRoomControl CancelRoomControl = new CancelRoomControl();
-   private String roomNumber;
+   private String reservationNumber;
 
    public CancelRoomForm() {
    }
@@ -16,14 +16,14 @@ public class CancelRoomForm {
 
    public void cancel() throws AppException {
       CancelRoomControl var1 = this.getCancelRoomControl();
-      var1.cancel(this.roomNumber);
+      var1.cancel(this.reservationNumber);
    }
 
-   public String getRoomNumber() {
-      return this.roomNumber;
+   public String getreservationNumber() {
+      return this.reservationNumber;
    }
 
-   public void setRoomNumber(String var1) {
-      this.roomNumber = var1;
+   public void setreservationNumber(String var1) {
+      this.reservationNumber = var1;
    }
 }

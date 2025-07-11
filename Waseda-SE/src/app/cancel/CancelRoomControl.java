@@ -9,15 +9,15 @@ import domain.payment.PaymentException;
 import domain.room.RoomManager;
 import domain.room.RoomException;
 public class CancelRoomControl {
-    	   public void cancel(String roomNumber) throws AppException {
+    	   public void cancel(String reservationNumber) throws AppException {
 			   try {
 					   // Clear room and get staying date
 					   RoomManager roomManager = getRoomManager();
-					   Date stayingDate = roomManager.removeCustomer(roomNumber);
+					   Date stayingDate = roomManager.removeCustomer(reservationNumber);
 
 					   // Consume payment
 					   PaymentManager paymentManager = getPaymentManager();
-					   paymentManager.consumePayment(stayingDate, roomNumber);
+					   paymentManager.consumePayment(stayingDate, reservationNumber);
 			   }
 			   catch (RoomException e) {
 					   AppException exception = new AppException("Failed to cancel", e);
@@ -34,6 +34,9 @@ public class CancelRoomControl {
 	   }
 
 	private RoomManager getRoomManager() {
+
+
+
 		return ManagerFactory.getInstance().getRoomManager();
 	}
 
