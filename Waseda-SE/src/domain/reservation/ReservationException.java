@@ -24,9 +24,15 @@ public class ReservationException extends Exception {
 
 	public static final int CODE_DB_CLOSE_ERROR = 5;
 
+	public static final int CODE_RESERVATION_ALREADY_CANCELED = 6;
+
 	private static final String MESSAGE_RESERVATION_NOT_FOUND = "Reservation not found";
 
 	private static final String MESSAGE_RESERVATION_ALREADY_CONSUMED = "Reservation already consumed";
+
+	public static final String RESERVATION_STATUS_CANCELED = "canceled";
+
+	private static final String MESSAGE_RESERVATION_ALREADY_CANCELED = "Reservation already canceled";
 
 	private static final String MESSAGE_DB_EXEC_QUERY_ERROR = "DB execution query error";
 
