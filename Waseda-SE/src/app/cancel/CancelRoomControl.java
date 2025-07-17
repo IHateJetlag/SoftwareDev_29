@@ -14,11 +14,11 @@ public class CancelRoomControl {
 			   try {
 					   // Clear room and get staying date
 					   RoomManager roomManager = getRoomManager();
-					   Date stayingDate = roomManager.removeCustomer(reservationNumber);
+					   Date stayingDate = roomManager.removeCustomer(reservationNumber);	// これはチェックアウト用[要変更]
 
 					   // Consume payment
 					   PaymentManager paymentManager = getPaymentManager();
-					   paymentManager.consumePayment(stayingDate, reservationNumber);
+					   paymentManager.consumePayment(stayingDate, reservationNumber);		// これもチェックアウト用[要変更]
 			   }
 			   catch (RoomException e) {
 					   AppException exception = new AppException("Failed to cancel", e);
