@@ -4,44 +4,29 @@ import java.util.Date;
 
 import app.AppException;
 import app.ManagerFactory;
-import domain.payment.PaymentManager;
-import domain.payment.PaymentException;
-import domain.room.RoomManager;
-import domain.room.RoomException;
-//
+// import domain.payment.PaymentManager; // PaymentManagerは不要なため削除
+// import domain.payment.PaymentException; // PaymentExceptionは不要なため削除
+// import domain.room.RoomManager; // RoomManagerは不要なため削除
+// import domain.room.RoomException; // RoomExceptionは不要なため削除
+import domain.reservation.ReservationManager; // ReservationManager をインポート
+import domain.reservation.ReservationException; // ReservationException をインポート
+
 public class CancelRoomControl {
-    	   public void cancel(String reservationNumber) throws AppException {
-			   try {
-					   // Clear room and get staying date
-					   RoomManager roomManager = getRoomManager();
-					   Date stayingDate = roomManager.removeCustomer(reservationNumber);	// これはチェックアウト用[要変更]
-
-					   // Consume payment
-					   PaymentManager paymentManager = getPaymentManager();
-					   paymentManager.consumePayment(stayingDate, reservationNumber);		// これもチェックアウト用[要変更]
-			   }
-			   catch (RoomException e) {
-					   AppException exception = new AppException("Failed to cancel", e);
-					   exception.getDetailMessages().add(e.getMessage());
-					   exception.getDetailMessages().addAll(e.getDetailMessages());
-					   throw exception;
-			   }
-			   catch (PaymentException e) {
-					   AppException exception = new AppException("Failed to cancel", e);
-					   exception.getDetailMessages().add(e.getMessage());
-					   exception.getDetailMessages().addAll(e.getDetailMessages());
-					   throw exception;
-			   }
-	   }
-
-	private RoomManager getRoomManager() {
+    public void cancel(String reservationNumber) throws AppException {
+        try {
+            ReservationManager reservationManager = getReservationManager(); 
+            reservationManager.cancelReservation(reservationNumber); 
 
 
-
-		return ManagerFactory.getInstance().getRoomManager();
-	}
-
-	private PaymentManager getPaymentManager() {
-		return ManagerFactory.getInstance().getPaymentManager();
-	}
+        }
+        catch (ReservationException e) { 
+            AppException exception = new AppException("Failed to cancel reservation", e);
+            exception.getDetailMessages().add(e.getMessage());
+            exception.getDetailMessages().addAll(e.getDetailMessages());
+            throw exception;
+        }
+    }
+    private ReservationManager getReservationManager() {
+        return ManagerFactory.getInstance().getReservationManager();
+    }
 }

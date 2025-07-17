@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import domain.DaoFactory;
+import domain.room.Room;
+import domain.room.RoomDao;
+import domain.room.RoomException;
 
 /**
  * Manager for reservations<br>
@@ -68,6 +71,41 @@ public class ReservationManager {
 		reservation.setStatus(Reservation.RESERVATION_STATUS_CONSUME);
 		reservationDao.updateReservation(reservation);
 		return stayingDate;
+	}
+
+	
+
+	public Date cancelReservation(String reservationNumber) throws ReservationException, NullPointerException {
+		if (reservationNumber == null) {
+			throw new NullPointerException("reservationNumber");
+		}
+
+		ReservationDao reservationDao = getReservationDao(); //
+		Reservation reservation = reservationDao.getReservation(reservationNumber); //
+
+		// 該当する予約が存在しない場合
+		if (reservation == null) {
+			ReservationException exception = new ReservationException(
+					ReservationException.CODE_RESERVATION_NOT_FOUND); //
+			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
+			throw exception;
+		}
+
+		// 予約が既にキャンセル済み、または消費済みの場合
+		// consumeReservationのロジックも参考に、既に処理済みの予約はキャンセルできないようにする
+		if (reservation.getStatus().equals(ReservationException.RESERVATION_STATUS_CANCELED) ||
+		    reservation.getStatus().equals(Reservation.RESERVATION_STATUS_CONSUME)) {
+			ReservationException exception = new ReservationException(
+					ReservationException.CODE_RESERVATION_ALREADY_CANCELED); // 新しいエラーコードを使う
+			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
+			throw exception;
+		}
+
+		Date stayingDate = reservation.getStayingDate(); //
+		reservation.setStatus(ReservationException.RESERVATION_STATUS_CANCELED); // ステータスをキャンセル済みに変更
+		reservationDao.updateReservation(reservation); //
+
+		return stayingDate; // キャンセルされた予約の宿泊日を返す
 	}
 
 	private ReservationDao getReservationDao() {
