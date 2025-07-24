@@ -24,7 +24,7 @@ public class CancelRoomForm {
         return this.reservationNumber;
     }
 
-    public void setreservationNumber(String var1) {
+    public void setReservationNumber(String var1) {
         this.reservationNumber = var1;
     }
 }
