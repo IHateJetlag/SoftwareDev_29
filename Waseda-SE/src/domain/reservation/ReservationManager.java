@@ -71,9 +71,7 @@ public class ReservationManager {
 		reservation.setStatus(Reservation.RESERVATION_STATUS_CONSUME);
 		reservationDao.updateReservation(reservation);
 		return stayingDate;
-	}
-
-	
+	}	
 
 	public Date cancelReservation(String reservationNumber) throws ReservationException, NullPointerException {
 		if (reservationNumber == null) {
