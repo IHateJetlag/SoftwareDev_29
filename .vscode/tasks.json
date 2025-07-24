@@ -1,0 +1,32 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run CUI.java",
+			"type": "shell",
+			"command": "javac",
+			"args": [
+				"-cp",
+				"Waseda-SE/lib/hsqldb.jar",
+				"-d",
+				"bin",
+				"Waseda-SE/src/app/cui/CUI.java",
+				"Waseda-SE/src/app/*.java",
+				"Waseda-SE/src/app/checkin/*.java",
+				"Waseda-SE/src/app/checkout/*.java",
+				"Waseda-SE/src/app/reservation/*.java",
+				"Waseda-SE/src/app/cancel/*.java",
+				"Waseda-SE/src/domain/*.java",
+				"Waseda-SE/src/domain/payment/*.java",
+				"Waseda-SE/src/domain/reservation/*.java",
+				"Waseda-SE/src/domain/room/*.java",
+				"Waseda-SE/src/util/*.java"
+			],
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": [
+				"$javac"
+			]
+		}
+	]
+}

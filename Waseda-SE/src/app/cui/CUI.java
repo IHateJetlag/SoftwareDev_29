@@ -3,16 +3,16 @@
  */
 package app.cui;
 
+import app.AppException;
+import app.cancel.CancelRoomForm;
+import app.checkin.CheckInRoomForm;
+import app.checkout.CheckOutRoomForm;
+import app.reservation.ReserveRoomForm;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
-
 import util.DateUtil;
-import app.AppException;
-import app.checkin.CheckInRoomForm;
-import app.checkout.CheckOutRoomForm;
-import app.reservation.ReserveRoomForm;
 
 /**
  * CUI class for Hotel Reservation Systems
@@ -37,6 +37,7 @@ public class CUI {
 				System.out.println("1: Reservation");
 				System.out.println("2: Check-in");
 				System.out.println("3: Check-out");
+				System.out.println("4: Cancel Reservation");
 				System.out.println("9: End");
 				System.out.print("> ");
 
@@ -45,7 +46,7 @@ public class CUI {
 					selectMenu = Integer.parseInt(menu);
 				}
 				catch (NumberFormatException e) {
-					selectMenu = 4;
+					selectMenu = -1;
 				}
 
 				if (selectMenu == 9) {
@@ -61,6 +62,9 @@ public class CUI {
 						break;
 					case 3:
 						checkOutRoom();
+						break;
+					case 4:
+						cancelRoom();
 						break;
 				}
 			}
@@ -109,11 +113,15 @@ public class CUI {
 		}
 
 		CheckInRoomForm checkInRoomForm = new CheckInRoomForm();
-		checkInRoomForm.setReservationNumber(reservationNumber);
-
-		String roomNumber = checkInRoomForm.checkIn();
-		System.out.println("Check-in has been completed.");
-		System.out.println("Room number is " + roomNumber + ".");
+		try {
+			checkInRoomForm.setReservationNumber(reservationNumber);
+			String roomNumber = checkInRoomForm.checkIn();
+			System.out.println("Check-in has been completed.");
+			System.out.println("Room number is " + roomNumber + ".");
+		}
+		catch (Exception e) {
+			System.out.println("Reservation number not found");
+		}
 
 	}
 
@@ -129,9 +137,36 @@ public class CUI {
 		}
 
 		CheckOutRoomForm checkoutRoomForm = new CheckOutRoomForm();
+		try {
 		checkoutRoomForm.setRoomNumber(roomNumber);
 		checkoutRoomForm.checkOut();
 		System.out.println("Check-out has been completed.");
+		}
+		catch (Exception e) {
+			System.out.println("Room number not found");
+		}
+	}
+
+	private void cancelRoom() throws IOException, AppException {
+		System.out.println("Input reservation number");
+		System.out.print("> ");
+
+		String reservationNumber = reader.readLine();
+
+		if (reservationNumber == null || reservationNumber.length() == 0) {
+			System.out.println("Invalid reservation number");
+			return;
+		}
+
+		CancelRoomForm cancelRoomForm = new CancelRoomForm();
+		try {
+			cancelRoomForm.setReservationNumber(reservationNumber);
+			cancelRoomForm.cancel();
+			System.out.println("Cancellation has been completed.");
+		}
+		catch (Exception e) {
+			System.out.println("Reservation number not found");
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
