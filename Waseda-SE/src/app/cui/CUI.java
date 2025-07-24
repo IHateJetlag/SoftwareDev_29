@@ -3,17 +3,16 @@
  */
 package app.cui;
 
+import app.AppException;
+import app.cancel.CancelRoomForm;
+import app.checkin.CheckInRoomForm;
+import app.checkout.CheckOutRoomForm;
+import app.reservation.ReserveRoomForm;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
-
 import util.DateUtil;
-import app.AppException;
-import app.checkin.CheckInRoomForm;
-import app.checkout.CheckOutRoomForm;
-import app.reservation.ReserveRoomForm;
-import app.cancel.CancelRoomForm;
 
 /**
  * CUI class for Hotel Reservation Systems
@@ -114,11 +113,15 @@ public class CUI {
 		}
 
 		CheckInRoomForm checkInRoomForm = new CheckInRoomForm();
-		checkInRoomForm.setReservationNumber(reservationNumber);
-
-		String roomNumber = checkInRoomForm.checkIn();
-		System.out.println("Check-in has been completed.");
-		System.out.println("Room number is " + roomNumber + ".");
+		try {
+			checkInRoomForm.setReservationNumber(reservationNumber);
+			String roomNumber = checkInRoomForm.checkIn();
+			System.out.println("Check-in has been completed.");
+			System.out.println("Room number is " + roomNumber + ".");
+		}
+		catch (Exception e) {
+			System.out.println("Reservation number not found");
+		}
 
 	}
 
@@ -134,9 +137,14 @@ public class CUI {
 		}
 
 		CheckOutRoomForm checkoutRoomForm = new CheckOutRoomForm();
+		try {
 		checkoutRoomForm.setRoomNumber(roomNumber);
 		checkoutRoomForm.checkOut();
 		System.out.println("Check-out has been completed.");
+		}
+		catch (Exception e) {
+			System.out.println("Room number not found");
+		}
 	}
 
 	private void cancelRoom() throws IOException, AppException {
@@ -151,9 +159,14 @@ public class CUI {
 		}
 
 		CancelRoomForm cancelRoomForm = new CancelRoomForm();
-		cancelRoomForm.setreservationNumber(reservationNumber);
-		cancelRoomForm.cancel();
-		System.out.println("Cancellation has been completed.");
+		try {
+			cancelRoomForm.setReservationNumber(reservationNumber);
+			cancelRoomForm.cancel();
+			System.out.println("Cancellation has been completed.");
+		}
+		catch (Exception e) {
+			System.out.println("Reservation number not found");
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
