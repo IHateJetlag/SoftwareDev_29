@@ -60,7 +60,7 @@ public class ReservationManager {
 			throw exception;
 		}
 		//If reservation has been consumed already
-		if (reservation.getStatus().equals(Reservation.RESERVATION_STATUS_CONSUME)) {
+		if (!reservation.getStatus().equals(Reservation.RESERVATION_STATUS_CREATE)) {
 			ReservationException exception = new ReservationException(
 					ReservationException.CODE_RESERVATION_ALREADY_CONSUMED);
 			exception.getDetailMessages().add("reservation_number[" + reservationNumber + "]");
@@ -71,9 +71,7 @@ public class ReservationManager {
 		reservation.setStatus(Reservation.RESERVATION_STATUS_CONSUME);
 		reservationDao.updateReservation(reservation);
 		return stayingDate;
-	}
-
-	
+	}	
 
 	public Date cancelReservation(String reservationNumber) throws ReservationException, NullPointerException {
 		if (reservationNumber == null) {
