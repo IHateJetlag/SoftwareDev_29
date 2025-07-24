@@ -20,11 +20,11 @@ public class CancelRoomForm {
         control.cancel(this.reservationNumber); // reservationNumberを渡す
     }
 
-    public String getReservationNumber() {
+    public String getreservationNumber() {
         return this.reservationNumber;
     }
 
-    public void setReservationNumber(String var1) {
+    public void setreservationNumber(String var1) {
         this.reservationNumber = var1;
     }
 }
